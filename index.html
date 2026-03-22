@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessy Pets | International Elite Yorkies Registry</title>
+    
+    <!-- Google Fonts: Luxury Selection -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0a0a0a;
+            --accent: #d4af37; /* Authentic Gold */
+            --bg: #fafafa;
+            --white: #ffffff;
+            --text-muted: #666666;
+            --curve: 40px; /* Luxury Curved Edges */
+            --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- LUXURY TYPOGRAPHY --- */
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.5px;
+        }
+
+        .luxury-heading {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 50px;
+            font-weight: 900;
+            position: relative;
+        }
+
+        .luxury-heading::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+            margin: 20px auto;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 1.8rem; font-weight: 900; text-decoration: none; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
+        .logo span { color: var(--accent); font-style: italic; }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: var(--primary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; transition: var(--transition); }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("images/kelly.jpg");
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; color: white;
+            padding: 0 10%;
+        }
+
+        .hero h1 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 20px; font-style: italic; }
+        .hero p { font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+
+        /* --- 3-COLUMN VERTICAL GALLERY --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Strict 3-Column Vertical Form */
+            gap: 50px;
+            padding: 80px 8%;
+        }
+
+        .card {
+            background: transparent;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .img-container {
+            height: 500px; /* Portrait Form */
+            border-radius: var(--curve);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            border-radius: var(--curve);
+        }
+
+        .card:hover .img-container img { transform: scale(1.08); }
+
+        .overlay-contact {
+            position: absolute; top: 30px; right: 30px;
+            display: flex; flex-direction: column; gap: 15px;
+            opacity: 0; transition: var(--transition);
+        }
+
+        .card:hover .overlay-contact { opacity: 1; }
+
+        .contact-icon {
+            width: 50px; height: 50px; background: var(--white);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; text-decoration: none; font-size: 1.4rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-info { padding: 30px 10px; text-align: center; }
+        .card-info h3 { font-size: 1.8rem; margin-bottom: 10px; font-weight: 700; }
+        .price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); font-weight: 700; }
+
+        /* --- SECTIONS --- */
+        section { display: none; padding: 150px 8% 80px; min-height: 100vh; }
+        section.active { display: block; }
+
+        .btn-luxury {
+            padding: 15px 40px; background: var(--primary); color: white; border: none;
+            border-radius: 50px; cursor: pointer; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 0.8rem; font-weight: 600; transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .btn-luxury:hover { background: var(--accent); transform: translateY(-3px); }
+
+        /* --- REVIEWS & VIDEOS --- */
+        .review-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .review-box { background: white; padding: 40px; border-radius: var(--curve); box-shadow: var(--shadow); }
+        
+        .video-box { 
+            width: 100%; height: 600px; background: #000; border-radius: var(--curve);
+            display: flex; align-items: center; justify-content: center; color: white;
+            font-size: 4rem; cursor: pointer; background-image: url('images/bella.jpg'); background-size: cover;
+        }
+
+        /* --- FOOTER & PAYMENTS --- */
+        footer {
+            background: #050505;
+            color: #888;
+            padding: 100px 8% 50px;
+            text-align: center;
+        }
+
+        .footer-logo { font-size: 2.5rem; color: white; margin-bottom: 30px; }
+        .footer-links { margin-bottom: 50px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .footer-links a { color: #888; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .copyright {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #555;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .payment-methods img {
+            height: 35px; /* Enlarged Original Icons */
+            filter: brightness(0) invert(1);
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+
+        .payment-methods img:hover { opacity: 1; transform: scale(1.1); filter: none; }
+        .payment-methods i { font-size: 35px; color: white; opacity: 0.6; }
+
+        /* --- CART & MODALS --- */
+        #cart-drawer {
+            position: fixed; top: 0; right: -500px; width: 500px; height: 100%;
+            background: white; z-index: 2000; padding: 60px; transition: var(--transition);
+            box-shadow: -30px 0 60px rgba(0,0,0,0.1);
+        }
+        #cart-drawer.active { right: 0; }
+
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: none; z-index: 3000;
+            justify-content: center; align-items: center; backdrop-filter: blur(10px);
+        }
+
+        .modal-content { background: white; padding: 60px; border-radius: var(--curve); width: 90%; max-width: 600px; }
+
+        @media (max-width: 1024px) {
+            .grid, .review-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .grid, .review-row { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            #cart-drawer { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo" onclick="showSection('home')">JESSY <span>PETS</span></a>
+        <div class="nav-links">
+            <a href="#" onclick="showSection('home')">Collection</a>
+            <a href="#" onclick="showSection('about')">Our History</a>
+            <a href="#" onclick="showSection('reviews')">Reviews</a>
+            <a href="#" onclick="showSection('videos')">Cinema</a>
+            <a href="#" onclick="showSection('contact')">Concierge</a>
+        </div>
+        <div class="nav-icons">
+            <button class="nav-btn" onclick="toggleCart()" style="background:none; border:none; cursor:pointer;">
+                <i class="fa-solid fa-shopping-bag" style="font-size:1.5rem;"></i>
+                <span id="cart-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- GALLERY / HOME SECTION -->
+    <section id="home" class="active">
+        <div class="hero">
+            <p>The 2026 International Collection</p>
+            <h1>Pure Pedigree.</h1>
+        </div>
+        
+        <h2 class="luxury-heading">The Registry Gallery</h2>
+        <div class="grid" id="product-grid"></div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <h2 class="luxury-heading">Our Heritage</h2>
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <p style="font-size: 1.2rem; color: #555;">Founded in 2018, Jessy Pets has redefined the world of elite Yorkies breeding. Our philosophy is simple: excellence is not an option, it is our standard. Every pedigree in our registry represents decades of genetic perfection and health-focused preservation.</p>
+            <img src="images/giji.jpg" style="width: 100%; height: 500px; object-fit: cover; border-radius: var(--curve); margin-top: 50px;" alt="About">
+        </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section id="reviews">
+        <h2 class="luxury-heading">Elite Client Memoirs</h2>
+        <div class="review-row">
+            <div class="review-box">
+                <div style="color:var(--accent); margin-bottom: 20px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"The acquisition of 'Nala' was the best decision for our family. Her temperament is flawless."</p>
+                <br><strong>— The Henderson Estate, NY</strong>
+            </div>
+            <div class="review-box">
+                <div style="color:var(--accent); margin-bottom: 20px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"World-class genetics. Our veterinarian was stunned by the health certifications provided."</p>
+                <br><strong>— Dr. Aris Thorne</strong>
+            </div>
+            <div class="review-box">
+                <div style="color:var(--accent); margin-bottom: 20px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Professional, discreet, and truly premium. The worldwide delivery was handled with such care."</p>
+                <br><strong>— Julian Von Berg</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEOS SECTION -->
+    <section id="videos">
+        <h2 class="luxury-heading">The Cinema Showcase</h2>
+        <div class="video-box">
+            <i class="fas fa-play-circle"></i>
+        </div>
+    </section>
+
+    <!-- CONTACT / LOCATION SECTION -->
+    <section id="contact">
+        <h2 class="luxury-heading">Global Concierge</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 100px;">
+            <div>
+                <h3 style="margin-bottom: 20px;">Inquiry Department</h3>
+                <p>Email: concierge@jessypets.com</p>
+                <p>WhatsApp: 678 938 576</p>
+                <br>
+                <h3>Global Headquarters</h3>
+                <p>90210 Elite Ridge, Suite 100<br>Beverly Hills, California, USA</p>
+            </div>
+            <div>
+                <input type="text" placeholder="FULL NAME" style="width:100%; padding:20px; margin-bottom:20px; border:1px solid #ddd; border-radius:10px;">
+                <input type="email" placeholder="EMAIL ADDRESS" style="width:100%; padding:20px; margin-bottom:20px; border:1px solid #ddd; border-radius:10px;">
+                <button class="btn-luxury" style="width:100%;">Request Catalog</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- POLICY SECTIONS -->
+    <section id="privacy">
+        <h2 class="luxury-heading">Privacy Protocol</h2>
+        <p>Your acquisition data is handled with the highest level of encryption. We do not disclose client identities to third-party registries.</p>
+    </section>
+
+    <section id="refund">
+        <h2 class="luxury-heading">Refund Policy</h2>
+        <p>We provide a lifetime health guarantee against genetic defects. Reservation deposits are final to ensure the exclusive allocation of your chosen pedigree.</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">JESSY <span>PETS</span></div>
+        <div class="footer-links">
+            <a href="#" onclick="showSection('about')">History</a>
+            <a href="#" onclick="showSection('contact')">Location</a>
+            <a href="#" onclick="showSection('privacy')">Privacy</a>
+            <a href="#" onclick="showSection('refund')">Refunds</a>
+        </div>
+        <p class="copyright">© 2026 Jessy Pets® International Registry. All Rights Reserved. Authorized AKC/UKC Partner.</p>
+        
+        <div class="payment-methods">
+            <!-- ORIGINAL PAYMENT ICONS -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg" alt="Apple Pay">
+            <img src="https://www.vectorlogo.zone/logos/apple/apple-icon.svg" alt="Gift Cards">
+            <i class="fa-solid fa-university" title="Direct Bank Wire"></i>
+        </div>
+    </footer>
+
+    <!-- CART SYSTEM -->
+    <div id="cart-drawer">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:50px;">
+            <h2>The Collection</h2>
+            <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; font-size:1.5rem;"></i>
+        </div>
+        <div id="cart-items-list" style="flex-grow:1; overflow-y:auto;"></div>
+        <div style="border-top: 1px solid #eee; padding-top: 30px;">
+            <div style="display:flex; justify-content:space-between; font-size:1.5rem; font-weight:700;">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn-luxury" style="width:100%;" onclick="openCheckout()">Finalize Procurement</button>
+        </div>
+    </div>
+
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <h2 class="luxury-heading" style="font-size:2rem;">Settlement</h2>
+            <p style="text-align:center; margin-bottom:30px;">Choose your preferred secure payment method.</p>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <button class="btn-luxury" style="margin-top:0;">PayPal</button>
+                <button class="btn-luxury" style="margin-top:0;">Apple Pay</button>
+                <button class="btn-luxury" style="margin-top:0;">Bank Wire</button>
+                <button class="btn-luxury" style="margin-top:0;">Gift Cards</button>
+            </div>
+            <button class="btn-luxury" style="width:100%; background:#888;" onclick="closeCheckout()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const puppies = [
+            { id: 1, name: "Gracie", gender: "male", price: 2500, badge: "Grand Sire", img: "images/gracie.jpg" },
+            { id: 2, name: "Luna", gender: "female", price: 2800, badge: "Elite", img: "images/luna.jpg" },
+            { id: 3, name: "Giji", gender: "female", price: 2200, badge: "Athletic", img: "images/giji.jpg" },
+            { id: 4, name: "Bella", gender: "female", price: 3100, badge: "Rare Blue", img: "images/bella.jpg" },
+            { id: 5, name: "Lola", gender: "male", price: 2400, badge: "Elite", img: "images/lola.jpg" },
+            { id: 6, name: "Daisy", gender: "female", price: 2100, badge: "Companion", img: "images/daisy.jpg" },
+            { id: 7, name: "Sugar", gender: "male", price: 2900, badge: "Guard", img: "images/sugar.jpg" },
+            { id: 8, name: "Ruby", gender: "female", price: 2500, badge: "Sire Choice", img: "images/ruby.jpg" },
+            { id: 9, name: "Elah", gender: "male", price: 2700, badge: "White Ghost", img: "images/elah.jpg" },
+            { id: 10, name: "Anna", gender: "male", price: 2200, badge: "Rare Lilac", img: "images/anna.jpg" },
+            { id: 11, name: "Kelly", gender: "male", price: 2300, badge: "Heavy Bone", img: "images/kelly.jpg" },
+            { id: 12, name: "Vanny", gender: "female", price: 2600, badge: "Sweet", img: "images/vanny.jpg" }
+        ];
+
+        let cart = [];
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function renderProducts(data = puppies) {
+            const container = document.getElementById('product-grid');
+            container.innerHTML = data.map(p => `
+                <div class="card">
+                    <div class="img-container">
+                        <img src="${p.img}" alt="${p.name}">
+                        <div class="overlay-contact">
+                            <a href="https://wa.me/678938576?text=Inquiry: ${p.name}" class="contact-icon"><i class="fa-brands fa-whatsapp" style="color:#25D366"></i></a>
+                            <a href="sms:678938576?body=Inquiry: ${p.name}" class="contact-icon"><i class="fa-solid fa-envelope" style="color:var(--accent)"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>${p.name}</h3>
+                        <div class="price">$${p.price.toLocaleString()}</div>
+                        <button class="btn-luxury" onclick="addToCart(${p.id})">Reserve Pedigree</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); }
+
+        function addToCart(id) {
+            cart.push(puppies.find(p => p.id === id));
+            updateCart();
+            toggleCart();
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cart-items-list');
+            let total = 0;
+            list.innerHTML = cart.map((item, idx) => {
+                total += item.price;
+                return `
+                    <div style="display:flex; gap:20px; align-items:center; margin-bottom:30px;">
+                        <img src="${item.img}" style="width:80px; height:80px; object-fit:cover; border-radius:15px;">
+                        <div style="flex-grow:1">
+                            <p style="font-weight:600;">${item.name}</p>
+                            <p style="color:var(--accent);">$${item.price}</p>
+                        </div>
+                        <i class="fas fa-trash" style="cursor:pointer; color:#ff4d4d;" onclick="removeItem(${idx})"></i>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('cart-total').innerText = `$${total.toLocaleString()}`;
+        }
+
+        function removeItem(idx) { cart.splice(idx, 1); updateCart(); }
+        function openCheckout() { document.getElementById('checkout-modal').style.display = 'flex'; }
+        function closeCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+
+        window.onload = () => renderProducts();
+    </script>
+</body>
+</html>
